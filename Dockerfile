@@ -1,5 +1,8 @@
 FROM opensuse/tumbleweed:latest AS ocp
 
+# Configure image labels
+LABEL org.opencontainers.image.source https://github.com/hhromic/opencubicplayer-docker
+
 # Configure default command for the image
 CMD ["ocp-curses"]
 

@@ -31,19 +31,10 @@ be used as well.
 
 Refer to the [usage](#usage) section for more details.
 
-## Building
-
-To build the standard `ocp` image:
-```
-docker buildx build --tag ocp --target ocp .
-```
-
-To build the `ocp-midi` image with MIDI playback support:
-```
-docker buildx build --tag ocp-midi --target ocp-midi .
-```
-
 ## Usage
+
+Ready to use images are available in the
+[GitHub Container Registry](https://github.com/hhromic?tab=packages&repo_name=opencubicplayer-docker).
 
 To run Open Cubic Player in WSL2 with WSLg (graphical mode):
 ```
@@ -52,7 +43,8 @@ docker run --rm -it \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /mnt/wslg:/mnt/wslg \
   -e DISPLAY -e PULSE_SERVER \
-  ocp ocp-sdl2 -spdevpSDL2
+  ghcr.io/hhromic/opencubicplayer:latest \
+  ocp-sdl2 -spdevpSDL2
 ```
 
 To run Open Cubic Player in WSL2 with WSLg (ncurses mode):
@@ -61,17 +53,34 @@ docker run --rm -it \
   -v /path/to/media:/media:ro \
   -v /mnt/wslg:/mnt/wslg \
   -e PULSE_SERVER \
-  ocp ocp-curses -spdevpSDL2
+  ghcr.io/hhromic/opencubicplayer:latest \
+  ocp-curses -spdevpSDL2
 ```
 
-Replace `ocp` with `ocp-midi` to run the image with MIDI playback support.
+Use `opencubicplayer-midi:latest` to run the image with MIDI playback support.
 
-To use a custom Soundfont file for MIDI playback:
+To use a custom Soundfont file for MIDI playback (ncurses mode):
 ```
 docker run --rm -it \
   -v /path/to/media:/media:ro \
   -v /path/to/soundfont.sf2:/usr/share/soundfonts/default.sf2:ro \
   -v /mnt/wslg:/mnt/wslg \
   -e PULSE_SERVER \
-  ocp-midi ocp-curses -spdevpSDL2
+  ghcr.io/hhromic/opencubicplayer-midi:latest \
+  ocp-curses -spdevpSDL2
+```
+
+Similar invocations should also work under Linux and macOS. Ensure to mount the
+correct audio devices into the container for Open Cubic Player to use.
+
+## Building
+
+To build the `opencubicplayer:latest` image locally:
+```
+docker buildx build --tag opencubicplayer:latest --target ocp .
+```
+
+To build the `opencubicplayer-midi:latest` image locally:
+```
+docker buildx build --tag opencubicplayer-midi:latest --target ocp-midi .
 ```

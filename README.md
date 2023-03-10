@@ -16,7 +16,8 @@ Two image targets are available in the provided [Dockerfile](Dockerfile):
 The `libpulse0` library provides support for
 [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) servers
 when using the SDL2 playback driver in Open Cubic Player. This provides out of
-the box support for audio in WSL2 and [WSLg](https://github.com/microsoft/wslg).
+the box support for audio in WSL2 with [WSLg](https://github.com/microsoft/wslg)
+in Windows 10/11.
 
 All images are based on the official
 [openSUSE Tumbleweed image](https://hub.docker.com/r/opensuse/tumbleweed).

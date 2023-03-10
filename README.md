@@ -84,3 +84,13 @@ To build the `opencubicplayer-midi:latest` image locally:
 ```
 docker buildx build --tag opencubicplayer-midi:latest --target ocp-midi .
 ```
+
+## Licenses
+
+This project is licensed under the [Apache License Version 2.0](LICENSE).
+
+Open Cubic Player (Unix fork) is licensed under the
+[GNU General Public License v2.0](https://github.com/mywave82/opencubicplayer/blob/master/COPYING).
+
+The bundled SGM Soundfont is under
+[Copyright (c) 2002-2004 David Shan](https://aur.archlinux.org/cgit/aur.git/tree/license.txt?h=soundfont-sgm).

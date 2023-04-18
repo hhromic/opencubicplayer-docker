@@ -15,6 +15,9 @@ RUN zypper --non-interactive install \
         ocp \
     && zypper clean --all
 
+# Create an audio system group for ALSA compatibility
+RUN groupadd --system audio
+
 # Start a new stage for MIDI playback support
 FROM ocp AS ocp-midi
 

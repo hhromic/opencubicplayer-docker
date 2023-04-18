@@ -16,8 +16,7 @@ Two image targets are available in the provided [Dockerfile](Dockerfile):
 The `libpulse0` library provides support for
 [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) servers
 when using the SDL2 playback driver in Open Cubic Player. This provides out of
-the box support for audio in WSL2 with [WSLg](https://github.com/microsoft/wslg)
-in Windows 10/11.
+the box support for modern desktop environments.
 
 All images are based on the official
 [openSUSE Tumbleweed image](https://hub.docker.com/r/opensuse/tumbleweed).
@@ -37,42 +36,119 @@ Refer to the [usage](#usage) section for more details.
 Ready to use images are available in the
 [GitHub Container Registry](https://github.com/hhromic?tab=packages&repo_name=opencubicplayer-docker).
 
-To run Open Cubic Player in WSL2 with WSLg (graphical mode):
+> **Note**
+> Use the `opencubicplayer-midi:latest` image/tag for MIDI playback support.
+
+### Linux
+
+The images can be used in Linux with ALSA (without audio servers) or PulseAudio.
+
+Two versions of Docker are available for Linux:
+* Docker Desktop for Linux (limited as it uses virtualization)
+* [Docker Server](https://docs.docker.com/engine/install/#server) (the recommended version)
+
+When using graphical mode in Linux, access to X11 must be granted to `root` by running:
+```
+xhost +local:root
+```
+> **Warning**
+> The above access grant is lost when the X11 server is restarted.
+
+#### Using ALSA
+
+To run Open Cubic Player in Linux using ALSA (ncurses mode):
 ```
 docker run --rm -it \
-  -v /path/to/media:/media:ro \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v /mnt/wslg:/mnt/wslg \
-  -e DISPLAY -e PULSE_SERVER \
-  ghcr.io/hhromic/opencubicplayer:latest \
-  ocp-sdl2 -spdevpSDL2
+    --device /dev/snd
+    -v /path/to/media:/media:ro \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-curses
 ```
+
+To run Open Cubic Player in Linux using ALSA (graphical mode):
+```
+docker run --rm -it \
+    --device /dev/snd
+    -v /path/to/media:/media:ro \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e DISPLAY \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-sdl2
+```
+
+#### Using PulseAudio
+
+> **Note**
+> The examples below are for Debian/Ubuntu desktops.
+> Please review the paths in other distributions.
+
+To run Open Cubic Player in Linux using PulseAudio (ncurses mode):
+```
+docker run --rm -it \
+    -v /path/to/media:/media:ro \
+    -v /run/user/$(id -u):/run/user/$(id -u) \
+    -v $HOME/.config/pulse:/root/.config/pulse:ro \
+    -e PULSE_SERVER=/run/user/$(id -u)/pulse/native \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-curses -spdevpSDL2
+```
+
+To run Open Cubic Player in Linux using PulseAudio (graphical mode):
+```
+docker run --rm -it \
+    -v /path/to/media:/media:ro \
+    -v /run/user/$(id -u):/run/user/$(id -u) \
+    -v $HOME/.config/pulse:/root/.config/pulse:ro \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e PULSE_SERVER=/run/user/$(id -u)/pulse/native \
+    -e DISPLAY \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-sdl2 -spdevpSDL2
+```
+
+### Windows Subsystem for Linux (WSL2)
+
+The images can be used in [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
+with [WSLg](https://github.com/microsoft/wslg) and
+[Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+in Windows 10/11.
+
+WSLg provides support for PulseAudio and graphical mode via X11.
 
 To run Open Cubic Player in WSL2 with WSLg (ncurses mode):
 ```
 docker run --rm -it \
-  -v /path/to/media:/media:ro \
-  -v /mnt/wslg:/mnt/wslg \
-  -e PULSE_SERVER \
-  ghcr.io/hhromic/opencubicplayer:latest \
-  ocp-curses -spdevpSDL2
+    -v /path/to/media:/media:ro \
+    -v /mnt/wslg:/mnt/wslg \
+    -e PULSE_SERVER \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-curses -spdevpSDL2
 ```
 
-Use `opencubicplayer-midi:latest` to run the image with MIDI playback support.
+To run Open Cubic Player in WSL2 with WSLg (graphical mode):
+```
+docker run --rm -it \
+    -v /path/to/media:/media:ro \
+    -v /mnt/wslg:/mnt/wslg \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e PULSE_SERVER \
+    -e DISPLAY \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-sdl2 -spdevpSDL2
+```
+
+### Custom MIDI Soundfont
 
 To use a custom Soundfont file for MIDI playback (ncurses mode):
 ```
 docker run --rm -it \
-  -v /path/to/media:/media:ro \
-  -v /path/to/soundfont.sf2:/usr/share/soundfonts/default.sf2:ro \
-  -v /mnt/wslg:/mnt/wslg \
-  -e PULSE_SERVER \
-  ghcr.io/hhromic/opencubicplayer-midi:latest \
-  ocp-curses -spdevpSDL2
+    -v /path/to/media:/media:ro \
+    -v /path/to/soundfont.sf2:/usr/share/soundfonts/default.sf2:ro \
+    -v /mnt/wslg:/mnt/wslg \
+    -e PULSE_SERVER \
+    ghcr.io/hhromic/opencubicplayer-midi:latest \
+    ocp-curses -spdevpSDL2
 ```
-
-Similar invocations should also work under Linux and macOS. Ensure to mount the
-correct audio devices into the container for Open Cubic Player to use.
 
 ## Building
 

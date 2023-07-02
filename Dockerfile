@@ -1,7 +1,9 @@
 FROM opensuse/tumbleweed:latest AS ocp
 
 # Configure image labels
-LABEL org.opencontainers.image.source https://github.com/hhromic/opencubicplayer-docker
+LABEL org.opencontainers.image.source=https://github.com/hhromic/opencubicplayer-docker \
+      org.opencontainers.image.description="Docker images for running the Unix fork of Open Cubic Player." \
+      org.opencontainers.image.licenses="Apache-2.0 GPL-2.0"
 
 # Configure default command for the image
 CMD ["ocp-curses"]

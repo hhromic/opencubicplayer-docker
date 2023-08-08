@@ -20,6 +20,10 @@ RUN zypper --non-interactive install \
 # Create an audio system group for ALSA compatibility
 RUN groupadd --system audio
 
+# Create a default OCP configuration file for the default user
+RUN mkdir -p "$HOME"/.config/ocp \
+    && cp /usr/share/ocp/etc/ocp.ini "$HOME"/.config/ocp/ocp.ini
+
 # Start a new stage for MIDI playback support
 FROM ocp AS ocp-midi
 

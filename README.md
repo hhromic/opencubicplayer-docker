@@ -44,8 +44,9 @@ Ready to use images are available in the
 The images can be used in Linux with ALSA (without audio servers) or PulseAudio.
 
 Two versions of Docker are available for Linux:
-* Docker Desktop for Linux (limited as it uses virtualization)
-* [Docker Server](https://docs.docker.com/engine/install/#server) (the recommended version)
+* [Docker Desktop for Linux](https://docs.docker.com/desktop/install/linux-install/)
+  (limited as it uses virtualization)
+* [Docker Engine](https://docs.docker.com/engine/install/) (the recommended version)
 
 When using graphical mode in Linux, access to X11 must be granted to `root` by running:
 ```

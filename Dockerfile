@@ -13,6 +13,7 @@ ENV LANG="C.UTF-8"
 
 # Install required packages
 RUN zypper --non-interactive install \
+        glibc-gconv-modules-extra \
         libpulse0 \
         ocp \
     && zypper clean --all

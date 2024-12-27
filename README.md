@@ -36,7 +36,7 @@ Refer to the [usage](#usage) section for more details.
 Ready to use images are available in the
 [GitHub Container Registry](https://github.com/hhromic?tab=packages&repo_name=opencubicplayer-docker).
 
-> **Note**
+> [!NOTE]
 > Use the `opencubicplayer-midi:latest` image/tag for MIDI playback support.
 
 ### Linux
@@ -52,7 +52,8 @@ When using graphical mode in Linux, access to X11 must be granted to `root` by r
 ```
 xhost +local:root
 ```
-> **Warning**
+
+> [!WARNING]
 > The above access grant is lost when the X11 server is restarted.
 
 #### Using ALSA
@@ -79,7 +80,7 @@ docker run --rm -it \
 
 #### Using PulseAudio
 
-> **Note**
+> [!NOTE]
 > The examples below are for Debian/Ubuntu desktops.
 > Please review the paths in other distributions.
 

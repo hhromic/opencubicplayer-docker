@@ -9,7 +9,11 @@ LABEL org.opencontainers.image.source=https://github.com/hhromic/opencubicplayer
 CMD ["ocp-curses"]
 
 # Configure default environment for the image
-ENV LANG="C.UTF-8"
+ENV LANG="C.UTF-8" \
+    XDG_CONFIG_HOME=/xdg/config \
+    XDG_CACHE_HOME=/xdg/cache \
+    XDG_DATA_HOME=/xdg/data \
+    XDG_STATE_HOME=/xdg/state
 
 # Install required packages
 RUN zypper --non-interactive install \

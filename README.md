@@ -152,6 +152,51 @@ docker run --rm -it \
     ocp-curses -spdevpSDL2
 ```
 
+### Data Persistence
+
+Open Cubic Player fully conforms to the
+[XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/latest/)
+for storing user configuration and data.
+
+To simplify data persistence, the images are pre-configured with the following XDG base directories:
+
+* `XDG_CONFIG_HOME` set to `/xdg/config`.
+* `XDG_CACHE_HOME` set to `/xdg/cache`.
+* `XDG_DATA_HOME` set to `/xdg/data`.
+* `XDG_STATE_HOME` set to `/xdg/state`.
+
+This configuration allows to use [Docker volumes](https://docs.docker.com/engine/storage/volumes/)
+easily for data persistence.
+
+To mount a local `/path/to/ocp-data` path for data persistence of the container:
+```
+docker run --rm -it \
+    -v /path/to/ocp-data:/xdg \
+    -v /path/to/media:/media:ro \
+    -v /mnt/wslg:/mnt/wslg \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e PULSE_SERVER \
+    -e DISPLAY \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-sdl2 -spdevpSDL2
+```
+
+For easier management, it is recommended to use
+[named volumes](https://docs.docker.com/engine/storage/volumes/#named-and-anonymous-volumes):
+```
+docker volume create ocp-data
+docker run --rm -it \
+    -v ocp-data:/xdg \
+    -v /path/to/media:/media:ro \
+    -v /mnt/wslg:/mnt/wslg \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e PULSE_SERVER \
+    -e DISPLAY \
+    ghcr.io/hhromic/opencubicplayer:latest \
+    ocp-sdl2 -spdevpSDL2
+docker volume rm ocp-data
+```
+
 ## Building
 
 To build the `opencubicplayer:latest` image locally:

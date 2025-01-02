@@ -10,19 +10,11 @@ This repository contains files for building Docker images for the
 
 Two image targets are available in the provided [Dockerfile](Dockerfile):
 
-* `ocp`: Produces an image containing Open Cubic Player and `libpulse0`.
+* `ocp`: Produces an image containing Open Cubic Player.
 * `ocp-midi`: Produces an `ocp` image with MIDI playback support.
 
-The `libpulse0` library provides support for
-[PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) servers
-when using the SDL2 playback driver in Open Cubic Player. This provides out of
-the box support for modern desktop environments.
-
 All images are based on the official
-[openSUSE Tumbleweed image](https://hub.docker.com/r/opensuse/tumbleweed).
-This base image was chosen for the following reasons: (1) the openSUSE
-Tumbleweed package repositories contain an up-to-date version of Open Cubic
-Player and (2) the base image is very small.
+[Debian Bookworm](https://hub.docker.com/_/debian) image.
 
 For MIDI playback support, the `ocp-midi` target pre-configures Timidity and
 bundles [Shan's GM Soundfont](https://archive.org/details/SGM-V2.01). This

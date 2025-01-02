@@ -1,4 +1,67 @@
-FROM opensuse/tumbleweed:latest AS ocp
+FROM debian:bookworm-slim AS base
+
+# Start a new stage for building the application
+FROM base AS builder
+
+# Install required packages
+RUN apt-get update --assume-yes \
+    && apt-get install --no-install-recommends --assume-yes \
+        bsdextrautils \
+        build-essential \
+        ca-certificates \
+        curl \
+        fonts-unifont \
+        gzip \
+        libancient-dev \
+        libbz2-dev \
+        libcjson-dev \
+        libdiscid-dev \
+        libflac-dev \
+        libfreetype-dev \
+        libgme-dev \
+        libjpeg-dev \
+        libmad0-dev \
+        libncurses-dev \
+        libogg-dev \
+        libpng-dev \
+        libsdl2-dev \
+        libvorbis-dev \
+        libxpm-dev \
+        pkgconf \
+        tar \
+        unzip \
+        xa65 \
+        zlib1g-dev
+
+# Set a well-known building directory
+WORKDIR /build
+
+# Download and build Open Cubic Player
+ARG OCP_URL=https://stian.cubic.org/ocp/ocp-3.0.1.tar.gz
+RUN mkdir ocp \
+    && curl -sSL "${OCP_URL}" | tar zxf - -C ocp --strip-components=1 \
+    && cd ocp \
+    && ./configure --prefix=/usr \
+        --without-desktop_file_install \
+        --without-oss \
+        --without-update-desktop-database \
+        --without-update-mime-database \
+    && make -j"$(nproc)" \
+    && make install DESTDIR=/build/install \
+    && rm -rf /build/install/usr/share/{doc,man}
+
+# Download and prepare image and animation asset files
+ARG OCP_IMG_URL=ftp://ftp.cubic.org/pub/player/gfx/opencp25image1.zip \
+    OCP_ANI_URL=ftp://ftp.cubic.org/pub/player/gfx/opencp25ani1.zip
+RUN mkdir ocp-img ocp-ani \
+    && curl -sSL "${OCP_IMG_URL}" -o ocp-img/ocp-img.zip \
+    && unzip ocp-img/ocp-img.zip -d ocp-img \
+    && curl -sSL "${OCP_ANI_URL}" -o ocp-ani/ocp-ani.zip \
+    && unzip ocp-ani/ocp-ani.zip -d ocp-ani \
+    && cp -pv ocp-img/CPPIC*.TGA ocp-ani/CPANI*.DAT install/usr/share/ocp/data/
+
+# Start a new stage for the application image
+FROM base AS ocp
 
 # Configure image labels
 LABEL org.opencontainers.image.source=https://github.com/hhromic/opencubicplayer-docker \
@@ -16,14 +79,33 @@ ENV LANG="C.UTF-8" \
     XDG_STATE_HOME=/xdg/state
 
 # Install required packages
-RUN zypper --non-interactive install \
-        glibc-gconv-modules-extra \
-        libpulse0 \
-        ocp \
-    && zypper clean --all
+RUN apt-get update --assume-yes \
+    && apt-get install --no-install-recommends --assume-yes \
+        ca-certificates \
+        curl \
+        fonts-unifont \
+        libancient2 \
+        libbz2-1.0 \
+        libcjson1 \
+        libdiscid0 \
+        libflac12 \
+        libfreetype6 \
+        libgme0 \
+        libjpeg62-turbo \
+        libmad0 \
+        libncurses6 \
+        libncursesw6 \
+        libogg0 \
+        libpng16-16 \
+        libsdl2-2.0-0 \
+        libvorbis0a \
+        libvorbisfile3 \
+        libxpm4 \
+        libxxf86vm1 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create an audio system group for ALSA compatibility
-RUN groupadd --system audio
+# Copy installation files from builder stage
+COPY --from=builder /build/install/ /
 
 # Start a new stage for MIDI playback support
 FROM ocp AS ocp-midi

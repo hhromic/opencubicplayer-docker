@@ -191,14 +191,9 @@ docker volume rm ocp-data
 
 ## Building
 
-To build the `opencubicplayer:latest` image locally:
+To build the images locally, use [Docker Build Bake](https://docs.docker.com/build/bake/):
 ```
-docker buildx build --tag opencubicplayer:latest --target ocp .
-```
-
-To build the `opencubicplayer-midi:latest` image locally:
-```
-docker buildx build --tag opencubicplayer-midi:latest --target ocp-midi .
+docker buildx bake
 ```
 
 ## Licenses

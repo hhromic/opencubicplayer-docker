@@ -17,8 +17,8 @@ All images are based on the official
 [Debian Bookworm](https://hub.docker.com/_/debian) image.
 
 For MIDI playback support, the `ocp-midi` target pre-configures Timidity and
-bundles [Shan's GM Soundfont](https://archive.org/details/SGM-V2.01). This
-Soundfont provides high quality MIDI audio rendering. Other Soundfont files can
+bundles the [GeneralUser GS](https://github.com/mrbumpy409/GeneralUser-GS) Soundfont.
+This Soundfont provides high quality MIDI audio rendering. Other Soundfont files can
 be used as well.
 
 Refer to the [usage](#usage) section for more details.
@@ -203,5 +203,5 @@ This project is licensed under the [Apache License Version 2.0](LICENSE).
 Open Cubic Player (Unix fork) is licensed under the
 [GNU General Public License v2.0](https://github.com/mywave82/opencubicplayer/blob/master/COPYING).
 
-The bundled SGM Soundfont is under
-[Copyright (c) 2002-2004 David Shan](https://aur.archlinux.org/cgit/aur.git/tree/license.txt?h=soundfont-sgm).
+The bundled GeneralUser GS Soundfont is under
+[its own license](https://github.com/mrbumpy409/GeneralUser-GS/blob/main/documentation/LICENSE.txt).

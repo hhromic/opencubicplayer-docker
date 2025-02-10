@@ -111,7 +111,7 @@ COPY --from=builder /build/install/ /
 FROM ocp AS ocp-midi
 
 # Download and install a soundfont for MIDI playback
-ARG SOUNDFONT_URL=http://sourceforge.net/projects/androidframe/files/soundfonts/SGM-V2.01.sf2
+ARG SOUNDFONT_URL=https://github.com/mrbumpy409/GeneralUser-GS/raw/refs/heads/main/GeneralUser-GS.sf2
 RUN mkdir -p /etc/timidity /usr/share/soundfonts \
     && curl -L "$SOUNDFONT_URL" -o /usr/share/soundfonts/default.sf2 \
     && echo "soundfont /usr/share/soundfonts/default.sf2" > /etc/timidity/timidity.cfg

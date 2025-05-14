@@ -39,8 +39,7 @@ WORKDIR /build
 
 # Download and build Open Cubic Player
 ARG OCP_URL=https://stian.cubic.org/ocp/ocp-3.0.1.tar.gz
-RUN mkdir ocp \
-    && curl -sSL "${OCP_URL}" | tar zxf - -C ocp --strip-components=1 \
+RUN curl -sSL "${OCP_URL}" | tar zxf - --one-top-level=ocp --strip-components=1 \
     && cd ocp \
     && ./configure --prefix=/usr \
         --without-desktop_file_install \
@@ -54,11 +53,10 @@ RUN mkdir ocp \
 # Download and prepare image and animation asset files
 ARG OCP_IMG_URL=ftp://ftp.cubic.org/pub/player/gfx/opencp25image1.zip \
     OCP_ANI_URL=ftp://ftp.cubic.org/pub/player/gfx/opencp25ani1.zip
-RUN mkdir ocp-img ocp-ani \
-    && curl -sSL "${OCP_IMG_URL}" -o ocp-img/ocp-img.zip \
-    && unzip ocp-img/ocp-img.zip -d ocp-img \
-    && curl -sSL "${OCP_ANI_URL}" -o ocp-ani/ocp-ani.zip \
-    && unzip ocp-ani/ocp-ani.zip -d ocp-ani \
+RUN curl -sSL "${OCP_IMG_URL}" -o ocp-img.zip \
+    && unzip ocp-img.zip -d ocp-img \
+    && curl -sSL "${OCP_ANI_URL}" -o ocp-ani.zip \
+    && unzip ocp-ani.zip -d ocp-ani \
     && cp -pv ocp-img/CPPIC*.TGA ocp-ani/CPANI*.DAT install/usr/share/ocp/data/
 
 # Start a new stage for the application image

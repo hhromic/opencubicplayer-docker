@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM debian:bookworm-slim AS base
 
 # Start a new stage for building the application

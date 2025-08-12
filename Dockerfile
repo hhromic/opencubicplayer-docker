@@ -39,7 +39,8 @@ WORKDIR /build
 
 # Download and build Open Cubic Player
 ARG OCP_URL=https://stian.cubic.org/ocp/ocp-3.0.1.tar.gz
-RUN curl -L "${OCP_URL}" | tar zxf - --one-top-level=ocp/ --strip-components=1 \
+ADD "${OCP_URL}" ocp.tar.gz
+RUN tar zxf ocp.tar.gz --one-top-level=ocp/ --strip-components=1 \
     && cd ocp \
     && ./configure --prefix=/usr \
         --without-desktop_file_install \
@@ -85,7 +86,6 @@ ENV LANG="C.UTF-8" \
 RUN apt-get update --assume-yes \
     && apt-get install --no-install-recommends --assume-yes \
         ca-certificates \
-        curl \
         fonts-unifont \
         libancient2 \
         libbz2-1.0 \
@@ -115,6 +115,6 @@ FROM ocp AS ocp-midi
 
 # Download and install a soundfont for MIDI playback
 ARG SOUNDFONT_URL=https://github.com/mrbumpy409/GeneralUser-GS/raw/refs/heads/main/GeneralUser-GS.sf2
-RUN mkdir -p /etc/timidity /usr/share/soundfonts \
-    && curl -L "$SOUNDFONT_URL" -o /usr/share/soundfonts/default.sf2 \
+ADD --chmod=644 "${SOUNDFONT_URL}" /usr/share/soundfonts/default.sf2
+RUN mkdir -p /etc/timidity \
     && echo "soundfont /usr/share/soundfonts/default.sf2" > /etc/timidity/timidity.cfg

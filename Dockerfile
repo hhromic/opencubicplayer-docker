@@ -40,7 +40,7 @@ RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked
 WORKDIR /build
 
 # Download and build Open Cubic Player
-ARG OCP_URL=https://stian.cubic.org/ocp/ocp-3.0.1.tar.gz
+ARG OCP_URL=https://stian.cubic.org/ocp/ocp-3.1.0.tar.gz
 ADD "${OCP_URL}" ocp.tar.gz
 RUN tar zxf ocp.tar.gz --one-top-level=ocp/ --strip-components=1 \
     && cd ocp \
@@ -72,7 +72,7 @@ LABEL org.opencontainers.image.description="Unix port of Open Cubic Player, whic
       org.opencontainers.image.title="Open Cubic Player (Unix port)" \
       org.opencontainers.image.url="https://github.com/hhromic/opencubicplayer-docker" \
       org.opencontainers.image.vendor="https://github.com/hhromic" \
-      org.opencontainers.image.version="3.0.1"
+      org.opencontainers.image.version="3.1.0"
 
 # Configure default command for the image
 CMD ["ocp-curses"]

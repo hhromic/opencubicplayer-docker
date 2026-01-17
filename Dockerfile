@@ -5,7 +5,9 @@ FROM debian:bookworm-slim AS base
 FROM base AS builder
 
 # Install required packages
-RUN apt-get update --assume-yes \
+RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=builder-apt-lib,target=/var/lib/apt,sharing=locked \
+    apt-get update --assume-yes \
     && apt-get install --no-install-recommends --assume-yes \
         bsdextrautils \
         build-essential \
@@ -83,7 +85,9 @@ ENV LANG="C.UTF-8" \
     XDG_STATE_HOME=/xdg/state
 
 # Install required packages
-RUN apt-get update --assume-yes \
+RUN --mount=type=cache,id=ocp-apt-cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=ocp-apt-lib,target=/var/lib/apt,sharing=locked \
+    apt-get update --assume-yes \
     && apt-get install --no-install-recommends --assume-yes \
         ca-certificates \
         fonts-unifont \
@@ -104,8 +108,7 @@ RUN apt-get update --assume-yes \
         libvorbis0a \
         libvorbisfile3 \
         libxpm4 \
-        libxxf86vm1 \
-    && rm -rf /var/lib/apt/lists/*
+        libxxf86vm1
 
 # Copy installation files from builder stage
 COPY --from=builder /build/install/ /

@@ -90,6 +90,7 @@ RUN --mount=type=cache,id=ocp-apt-cache,target=/var/cache/apt,sharing=locked \
     apt-get update --assume-yes \
     && apt-get install --no-install-recommends --assume-yes \
         ca-certificates \
+        curl \
         fonts-unifont \
         libancient2 \
         libbz2-1.0 \

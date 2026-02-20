@@ -116,7 +116,7 @@ COPY --from=builder /build/install/ /
 FROM ocp AS ocp-midi
 
 # Download and install a soundfont for MIDI playback
-ARG SOUNDFONT_URL=https://github.com/mrbumpy409/GeneralUser-GS/raw/refs/heads/main/GeneralUser-GS.sf2
+ARG SOUNDFONT_URL=https://github.com/mrbumpy409/GeneralUser-GS/raw/74d4cfe4042a61ddab17d4f86dbccd9d2570eb2a/GeneralUser-GS.sf2
 ADD --chmod=644 "${SOUNDFONT_URL}" /usr/share/soundfonts/default.sf2
 RUN mkdir -p /etc/timidity \
     && echo "soundfont /usr/share/soundfonts/default.sf2" > /etc/timidity/timidity.cfg

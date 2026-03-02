@@ -12,7 +12,6 @@ RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked
         bsdextrautils \
         build-essential \
         fonts-unifont \
-        gzip \
         libancient-dev \
         libbz2-dev \
         libcjson-dev \
@@ -29,7 +28,6 @@ RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked
         libvorbis-dev \
         libxpm-dev \
         pkgconf \
-        tar \
         unzip \
         xa65 \
         zlib1g-dev
@@ -38,10 +36,8 @@ RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked
 WORKDIR /build
 
 # Download and build Open Cubic Player
-ARG OCP_URL=https://stian.cubic.org/ocp/ocp-3.1.3.tar.gz
-ADD "${OCP_URL}" ocp.tar.gz
-RUN tar zxf ocp.tar.gz --one-top-level=ocp/ --strip-components=1 \
-    && cd ocp \
+ADD https://github.com/mywave82/opencubicplayer.git?tag=v3.1.3 ocp/
+RUN cd ocp \
     && ./configure --prefix=/usr \
         --without-desktop_file_install \
         --without-oss \

@@ -48,10 +48,8 @@ RUN cd ocp \
     && rm -rf /build/install/usr/share/{doc,man}
 
 # Download and prepare image and animation asset files
-ARG OCP_IMG_URL=https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25image1.zip \
-    OCP_ANI_URL=https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25ani1.zip
-ADD "${OCP_IMG_URL}" ocp-img.zip
-ADD "${OCP_ANI_URL}" ocp-ani.zip
+ADD https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25image1.zip ocp-img.zip
+ADD https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25ani1.zip ocp-ani.zip
 RUN unzip ocp-img.zip -d ocp-img \
     && unzip ocp-ani.zip -d ocp-ani \
     && cp -pv ocp-img/CPPIC*.TGA ocp-ani/CPANI*.DAT install/usr/share/ocp/data/

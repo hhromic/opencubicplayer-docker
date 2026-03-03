@@ -28,7 +28,6 @@ RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked
         libvorbis-dev \
         libxpm-dev \
         pkgconf \
-        unzip \
         xa65 \
         zlib1g-dev
 
@@ -47,13 +46,6 @@ RUN cd ocp \
     && make -j"$(nproc)" \
     && make install DESTDIR=/build/install \
     && rm -rf /build/install/usr/share/{doc,man}
-
-# Download and prepare image and animation asset files
-ADD https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25image1.zip ocp-img.zip
-ADD https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25ani1.zip ocp-ani.zip
-RUN unzip ocp-img.zip -d ocp-img \
-    && unzip ocp-ani.zip -d ocp-ani \
-    && cp -pv ocp-img/CPPIC*.TGA ocp-ani/CPANI*.DAT install/usr/share/ocp/data/
 
 # Start a new stage for the application image
 FROM base AS ocp
@@ -106,6 +98,12 @@ RUN --mount=type=cache,id=ocp-apt-cache,target=/var/cache/apt,sharing=locked \
 
 # Copy installation files from builder stage
 COPY --from=builder /build/install/ /
+
+# Download and install image and animation asset files
+ADD --chmod=644 \
+    https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25image1.zip \
+    https://stian.cubic.org/mirror/ftp.cubic.org/pub/player/gfx/opencp25ani1.zip \
+    /usr/share/ocp/data/
 
 # Start a new stage for MIDI playback support
 FROM ocp AS ocp-midi

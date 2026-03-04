@@ -45,7 +45,7 @@ RUN cd ocp \
         --without-update-mime-database \
     && make -j"$(nproc)" \
     && make install DESTDIR=/build/install \
-    && rm -rf /build/install/usr/share/{doc,man}
+    && for d in doc man; do rm -rf /build/install/usr/share/$d; done
 
 # Start a new stage for the application image
 FROM base AS ocp

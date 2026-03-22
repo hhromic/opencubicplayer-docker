@@ -6,26 +6,15 @@ variable "TAG_LATEST" {
   default = false
 }
 
-group "default" {
-  targets = ["ocp", "ocp-midi"]
-}
-
-target "ocp" {
-  target = "ocp"
-  tags = [
-    "ghcr.io/hhromic/opencubicplayer:${TAG}",
-    TAG_LATEST ? "ghcr.io/hhromic/opencubicplayer:latest" : "",
-  ]
-  labels = {
-    "org.opencontainers.image.created" = timestamp()
+target "default" {
+  name = tgt
+  matrix = {
+    tgt = ["opencubicplayer", "opencubicplayer-midi"],
   }
-}
-
-target "ocp-midi" {
-  target = "ocp-midi"
+  target = tgt
   tags = [
-    "ghcr.io/hhromic/opencubicplayer-midi:${TAG}",
-    TAG_LATEST ? "ghcr.io/hhromic/opencubicplayer-midi:latest" : "",
+    "ghcr.io/hhromic/${tgt}:${TAG}",
+    TAG_LATEST ? "ghcr.io/hhromic/${tgt}:latest" : "",
   ]
   labels = {
     "org.opencontainers.image.created" = timestamp()

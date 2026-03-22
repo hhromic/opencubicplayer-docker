@@ -48,7 +48,7 @@ RUN cd ocp \
     && for d in doc man; do rm -rf /build/install/usr/share/$d; done
 
 # Start a new stage for the application image
-FROM base AS ocp
+FROM base AS opencubicplayer
 
 # Configure image labels
 LABEL org.opencontainers.image.description="Unix port of Open Cubic Player, which is a text-based player with some few graphical views." \
@@ -106,7 +106,7 @@ ADD --chmod=644 \
     /usr/share/ocp/data/
 
 # Start a new stage for MIDI playback support
-FROM ocp AS ocp-midi
+FROM opencubicplayer AS opencubicplayer-midi
 
 # Download and install a soundfont for MIDI playback
 ADD --chmod=644 \

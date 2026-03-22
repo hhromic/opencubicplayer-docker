@@ -1,9 +1,6 @@
-variable "TAG" {
-  default = "latest"
-}
-
-variable "TAG_LATEST" {
-  default = false
+variable "TAGS" {
+  default = ["latest"]
+  type = list(string)
 }
 
 target "default" {
@@ -12,10 +9,7 @@ target "default" {
     tgt = ["opencubicplayer", "opencubicplayer-midi"],
   }
   target = tgt
-  tags = [
-    "ghcr.io/hhromic/${tgt}:${TAG}",
-    TAG_LATEST ? "ghcr.io/hhromic/${tgt}:latest" : "",
-  ]
+  tags = [for tag in TAGS: "ghcr.io/hhromic/${tgt}:${tag}"]
   labels = {
     "org.opencontainers.image.created" = timestamp()
   }

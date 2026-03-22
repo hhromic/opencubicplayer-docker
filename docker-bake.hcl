@@ -3,6 +3,10 @@ variable "TAGS" {
   type = list(string)
 }
 
+variable "IMAGE_CREATED" {
+  default = timestamp()
+}
+
 target "default" {
   name = tgt
   matrix = {
@@ -11,6 +15,6 @@ target "default" {
   target = tgt
   tags = [for tag in TAGS: "ghcr.io/hhromic/${tgt}:${tag}"]
   labels = {
-    "org.opencontainers.image.created" = timestamp()
+    "org.opencontainers.image.created" = IMAGE_CREATED
   }
 }

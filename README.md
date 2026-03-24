@@ -3,20 +3,20 @@
 This repository contains files for building Docker images for the
 [Unix fork of Open Cubic Player](https://github.com/mywave82/opencubicplayer).
 
-> UNIX port of Open Cubic Player, which is a text-based player with some few
-> graphical views. Visual output can be done through nCurses, Linux console
-> (VCSA + FrameBuffer), X11 or SDL/SDL2. It can be compiled on various different
-> unix based operating systems.
+> Unix port of [Open Cubic Player](https://www.cubic.org/player/), which is a text-based player
+> with some few graphical views. Visual output can be done through nCurses, Linux console
+> (VCSA + FrameBuffer), X11 or SDL. This port can be compiled for various different
+> Unix-based operating systems, including MinGW compilers.
 
 Two image targets are available in the provided [Dockerfile](Dockerfile):
 
-* `ocp`: Produces an image containing Open Cubic Player.
-* `ocp-midi`: Produces an `ocp` image with MIDI playback support.
+* `opencubicplayer`: Produces an image containing Open Cubic Player.
+* `opencubicplayer-midi`: Produces an `opencubicplayer` image with MIDI playback support.
 
 All images are based on the official
 [Debian Bookworm](https://hub.docker.com/_/debian) image.
 
-For MIDI playback support, the `ocp-midi` target pre-configures Timidity and
+For MIDI playback support, the `opencubicplayer-midi` target pre-configures Timidity and
 bundles the [GeneralUser GS](https://github.com/mrbumpy409/GeneralUser-GS) Soundfont.
 This Soundfont provides high quality MIDI audio rendering. Other Soundfont files can
 be used as well.
@@ -28,7 +28,7 @@ Refer to the [usage](#usage) section for more details.
 Ready to use images are available in the
 [GitHub Container Registry](https://github.com/hhromic?tab=packages&repo_name=opencubicplayer-docker).
 
-> [!NOTE]
+> [!TIP]
 > Use the `opencubicplayer-midi:latest` image/tag for MIDI playback support.
 
 ### Linux

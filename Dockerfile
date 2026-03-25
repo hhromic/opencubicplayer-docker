@@ -50,15 +50,6 @@ RUN cd ocp \
 # Start a new stage for the application image
 FROM base AS opencubicplayer
 
-# Configure image labels
-LABEL org.opencontainers.image.description="Unix port of Open Cubic Player, which is a text-based player with some few graphical views." \
-      org.opencontainers.image.licenses="Apache-2.0 GPL-2.0" \
-      org.opencontainers.image.source="https://github.com/hhromic/opencubicplayer-docker" \
-      org.opencontainers.image.title="Open Cubic Player (Unix port)" \
-      org.opencontainers.image.url="https://github.com/hhromic/opencubicplayer-docker" \
-      org.opencontainers.image.vendor="https://github.com/hhromic" \
-      org.opencontainers.image.version="3.2.0"
-
 # Configure default command for the image
 CMD ["ocp-curses"]
 

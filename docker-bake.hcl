@@ -10,19 +10,20 @@ variable "PLATFORMS" {
 
 variable "IMAGE_CREATED" {
   default = timestamp()
+  type = string
 }
 
 target "default" {
-  name = tgt
   matrix = {
-    tgt = ["opencubicplayer", "opencubicplayer-midi"],
+    tgt = ["opencubicplayer", "opencubicplayer-midi"]
   }
+  name = tgt
   target = tgt
   tags = [for tag in TAGS: "ghcr.io/hhromic/${tgt}:${tag}"]
   platforms = PLATFORMS
   attest = [
-    {"type": "sbom", "disabled": true},
-    {"type": "provenance", "disabled": true},
+    {"type" = "sbom", "disabled" = true},
+    {"type" = "provenance", "disabled" = true},
   ]
   labels = {
     "org.opencontainers.image.created" = IMAGE_CREATED

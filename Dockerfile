@@ -35,7 +35,7 @@ RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked
 WORKDIR /build
 
 # Download and build Open Cubic Player
-ADD https://github.com/mywave82/opencubicplayer.git?tag=v3.2.0 ocp/
+ADD https://github.com/mywave82/opencubicplayer.git?tag=v3.3.0 ocp/
 RUN cd ocp \
     && ./configure --prefix=/usr \
         --without-desktop_file_install \
@@ -43,6 +43,7 @@ RUN cd ocp \
         --without-sdl3 \
         --without-update-desktop-database \
         --without-update-mime-database \
+        --without-x11-shm \
     && make -j"$(nproc)" \
     && make install DESTDIR=/build/install \
     && for d in doc man; do rm -rf /build/install/usr/share/$d; done

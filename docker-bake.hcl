@@ -22,7 +22,7 @@ variable "_metadata" {
     "org.opencontainers.image.title" = "Open Cubic Player (Unix port)"
     "org.opencontainers.image.url" = "https://github.com/hhromic/opencubicplayer-docker"
     "org.opencontainers.image.vendor" = "https://github.com/hhromic"
-    "org.opencontainers.image.version" = "3.2.0"
+    "org.opencontainers.image.version" = "3.3.0"
   }
   type = map(string)
 }

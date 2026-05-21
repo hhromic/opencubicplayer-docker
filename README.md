@@ -195,6 +195,10 @@ To build the images locally, use [Docker Build Bake](https://docs.docker.com/bui
 ```
 docker buildx bake
 ```
+To build and publish multi-platform images:
+```
+TAGS=vX.Y.Z,latest PLATFORMS=linux/amd64,linux/arm64 docker bake --push
+```
 
 ## Licenses
 

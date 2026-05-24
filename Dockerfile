@@ -35,7 +35,7 @@ RUN --mount=type=cache,id=builder-apt-cache,target=/var/cache/apt,sharing=locked
 WORKDIR /build
 
 # Download and build Open Cubic Player
-ADD https://github.com/mywave82/opencubicplayer.git?tag=v3.3.0 ocp/
+ADD https://github.com/mywave82/opencubicplayer.git?tag=v3.3.1 ocp/
 RUN cd ocp \
     && ./configure --prefix=/usr \
         --without-desktop_file_install \
